@@ -1,0 +1,77 @@
+services:
+  postgres:
+    container_name: psql_container_microservices_project
+    image: postgres
+    environment:
+      POSTGRES_USER: chamika
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_microservices_project:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_microservices_project
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+
+  mongo:
+    container_name: mongo_microservices_project
+    image: mongo
+    volumes:
+      - mongodb_microservices_project:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: chamika
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+
+  mongo-express:
+    container_name: mongo_express_microservices_project
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: chamika
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_PORT: 27017
+
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: maildev_microservices_project
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    restart: unless-stopped
+
+
+
+networks:
+  microservices_project_network:
+    driver: bridge
+
+volumes:
+  postgres_microservices_project:
+  mongodb_microservices_project:
