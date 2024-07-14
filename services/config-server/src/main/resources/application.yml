@@ -1,0 +1,16 @@
+# TODO: Understand spring profiles...
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configurations  # will place all the config files for all other services inside this dir
+
+
+server:
+  port: 8888
