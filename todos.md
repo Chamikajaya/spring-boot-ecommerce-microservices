@@ -1,3 +1,12 @@
+**Refer amigoscode & dockerrize the services & eureka server - then Kubernetes EKS**
+
+### TODOs -->
+* Understand the relationship in OrderLine
+**Add flyway to the order service**
+**Change the ports**
+
+*
+*
 * Understand what spring profiles are
 * Understand the importance of flyway
 * Check toProduct method in ProductMapper for building the category !
