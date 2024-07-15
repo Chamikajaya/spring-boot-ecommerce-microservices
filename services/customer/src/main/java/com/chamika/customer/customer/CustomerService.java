@@ -1,6 +1,7 @@
 package com.chamika.customer.customer;
 
 
+import com.chamika.customer.customer.exception.EmailAlreadyTakenException;
 import com.chamika.customer.customer.exception.ResourceNotFoundException;
 import com.chamika.customer.customer.shared.PageResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,10 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
 
     public String createCustomer(CustomerCreateReqBody request) {
+
+        if (customerRepository.existsByEmail(request.email())) {
+            throw new EmailAlreadyTakenException("Customer with email " + request.email() + " already exists !");
+        }
 
         Customer customer = customerMapper.toCustomer(request);
         Customer savedCustomer = customerRepository.save(customer);
@@ -61,7 +66,7 @@ public class CustomerService {
                 size
         );
 
-        Page<Customer> customerPage = customerRepository.findAllCustomers(pageable);
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
 
         List<CustomerResponseBody> customerResponseBodies = customerPage.stream()
                 .map(customerMapper::toCustomerResponseBody)

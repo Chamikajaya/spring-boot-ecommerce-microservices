@@ -4,10 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+@ControllerAdvice
 @Slf4j
 public class DefaultExceptionHandler {
 
@@ -20,6 +22,20 @@ public class DefaultExceptionHandler {
                 request.getRequestURL().toString(),
                 e.getMessage(),
                 HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+
+    }
+
+    @ExceptionHandler(EmailAlreadyTakenException.class)
+    public ResponseEntity<APIError> handleException(EmailAlreadyTakenException e, HttpServletRequest request) {
+
+        log.error("Email Already Taken Exception occurred", e);
+        APIError apiError = new APIError(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.CONFLICT.value(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
