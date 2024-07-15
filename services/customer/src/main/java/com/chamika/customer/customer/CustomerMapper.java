@@ -25,4 +25,20 @@ public class CustomerMapper {
                 .build();
     }
 
+    public CustomerResponseBody toCustomerResponseBody(Customer customer) {
+        if (customer == null) {
+            return null;
+        }
+
+        return new CustomerResponseBody(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getAddress()
+        );
+
+
+    }
+
 }
