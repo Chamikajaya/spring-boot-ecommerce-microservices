@@ -7,7 +7,6 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "t_product")
 @Builder
 @Data
 @AllArgsConstructor
@@ -15,7 +14,8 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
+    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq")
     private Integer id;
 
     private String name;

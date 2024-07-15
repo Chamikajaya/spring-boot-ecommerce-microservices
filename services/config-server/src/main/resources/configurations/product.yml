@@ -8,7 +8,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate # since we are using flyway to manage the schema :)
+      ddl-auto: create # since we are using flyway to manage the schema :)
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
