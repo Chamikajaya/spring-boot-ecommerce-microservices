@@ -1,16 +1,13 @@
-# TODO: Understand spring profiles...
-
 spring:
   application:
     name: config-server
   profiles:
-    active: native
+    active: native  # the server will use a local repository as the source of its configuration data.
   cloud:
     config:
       server:
         native:
-          search-locations: classpath:/configurations  # will place all the config files for all other services inside this dir
-
+          search-locations: classpath:/configurations  # specifies the location of the configuration files when using the native profile. (classpath  refers to resources directory)
 
 server:
   port: 8888

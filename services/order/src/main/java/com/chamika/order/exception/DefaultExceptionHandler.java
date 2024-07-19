@@ -1,19 +1,15 @@
-package com.chamika.customer.customer.exception;
+package com.chamika.order.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@RestControllerAdvice
+@ControllerAdvice
 @Slf4j
 public class DefaultExceptionHandler {
 
@@ -28,42 +24,26 @@ public class DefaultExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
-
-    }
-
-    @ExceptionHandler(EmailAlreadyTakenException.class)
-    public ResponseEntity<APIError> handleException(EmailAlreadyTakenException e, HttpServletRequest request) {
-
-        log.error("Email Already Taken Exception occurred", e);
-        APIError apiError = new APIError(
-                request.getRequestURI(),
-                e.getMessage(),
-                HttpStatus.CONFLICT.value(),
-                LocalDateTime.now()
-        );
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
 
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationError> handleException(MethodArgumentNotValidException e, HttpServletRequest request) {
+    @ExceptionHandler(OrderProcessingException.class)
+    public ResponseEntity<APIError> handleException(OrderProcessingException e, HttpServletRequest request) {
 
-        log.error("Method Argument not valid Exception occurred", e);
+        log.error("Resource not found exception occurred", e);
 
-        List<String> errors = e.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.toList());
-
-        ValidationError validationError = new ValidationError(
-                request.getRequestURI(),
-                errors,
+        APIError apiError = new APIError(
+                request.getRequestURL().toString(),
+                e.getMessage(),
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now()
         );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(validationError, HttpStatus.BAD_REQUEST);
     }
+
+
 
     // * Catch all exceptions handler
     @ExceptionHandler(Exception.class)

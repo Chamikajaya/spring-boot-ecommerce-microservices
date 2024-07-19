@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerMapper {
 
+
+    // *  Converts the CustomerCreateReqBody DTO to a Customer domain object.
     public Customer toCustomer(CustomerCreateReqBody request) {
 
         if (request == null) {
@@ -25,6 +27,8 @@ public class CustomerMapper {
                 .build();
     }
 
+
+    // * Converts the Customer domain object to a CustomerResponseBody DTO.
     public CustomerResponseBody toCustomerResponseBody(Customer customer) {
         if (customer == null) {
             return null;

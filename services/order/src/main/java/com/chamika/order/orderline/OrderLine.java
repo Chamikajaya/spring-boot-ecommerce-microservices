@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 // This entity is the bridge between Order and Product (Many to Many) with additional attribute "quantity" to represent the quantity of a product in an order
 
+// * OrderLine Entity is used to represent individual products in an order
+
 @Entity
 @Table(name = "t_order_line")
 @Builder

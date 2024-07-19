@@ -32,9 +32,17 @@ public class CustomerService {
 
 
     public void updateCustomer(String id, CustomerCreateReqBody request) {
+
         Customer customer = customerRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Customer with id " + id + " not found !")
         );
+
+        updateCustomerDetailsHelper(customer, request);
+        customerRepository.save(customer);
+
+    }
+
+    private void updateCustomerDetailsHelper(Customer customer, CustomerCreateReqBody request) {
 
         if (request.firstName() != null && !request.firstName().isBlank()) {
             customer.setFirstName(request.firstName());
@@ -51,11 +59,8 @@ public class CustomerService {
         if (request.address() != null) {
             customer.setAddress(request.address());
         }
-
-        customerRepository.save(customer);
-
-
     }
+
 
 
     public PageResponse<CustomerResponseBody> getAllCustomers(Integer page, Integer size) {
@@ -105,6 +110,5 @@ public class CustomerService {
     public Boolean existsById(String id) {
         return customerRepository.existsById(id);
     }
-
 
 }
