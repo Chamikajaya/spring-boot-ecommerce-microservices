@@ -12,9 +12,9 @@ public class OrderLineService {
     private final OrderLineRepository orderLineRepository;
     private final OrderLineMapper orderLineMapper;
 
-    public Integer createOrderLine(OrderLineRequest orderLineRequest) {
+    public void createOrderLine(OrderLineRequest orderLineRequest) {
         OrderLine orderLine = orderLineMapper.toOrderLine(orderLineRequest);
-        return orderLineRepository.save(orderLine).getId();
+        orderLineRepository.save(orderLine);
     }
 
     public List<OrderLineResponse> findAllOrderLinesRelatedToAnOrder(Integer orderId) {

@@ -42,9 +42,9 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order with id " + orderId + " does not exist."));
     }
 
-    // TODO - add transactional
 
-    // TODO: Break this function into smaller functions
+    // TODO - add transactional
+    // TODO: Break this function into smaller functions for better readability !!!
     public Integer createOrder(OrderCreateReqBody orderCreateReqBody) {
 
         // 1) check whether the customer exists - need to interact with the customer service 😊
