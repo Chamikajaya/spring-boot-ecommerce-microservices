@@ -4,6 +4,8 @@ import com.chamika.order.exception.OrderProcessingException;
 import com.chamika.order.exception.ResourceNotFoundException;
 import com.chamika.order.customer.CustomerClient;
 import com.chamika.order.customer.CustomerResponseBody;
+import com.chamika.order.kafka.OrderConfirmation;
+import com.chamika.order.kafka.OrderProducer;
 import com.chamika.order.orderline.OrderLineRequest;
 import com.chamika.order.orderline.OrderLineService;
 import com.chamika.order.product.ProductClient;
@@ -22,7 +24,9 @@ public class OrderService {
     private final CustomerClient customerClient;  // using Feign Client
     private final ProductClient productClient;  // using Feign Client
     private final OrderLineService orderLineService;
-    private final OrderMapper orderMapper;  // TODO: is needed ?
+    private final OrderMapper orderMapper;
+
+    private final OrderProducer orderProducer;
 
 
     public List<OrderResponse> findAllOrders() {
@@ -88,15 +92,25 @@ public class OrderService {
             );
         }
 
+        // TODO:  payment process - need to interact with the payment service 😊 ==> not implemented yet ...
 
-        // payment process - need to interact with the payment service 😊
 
+        // * send order-confirmation email - need to send message to Kafka Message Broker
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        orderCreateReqBody.reference(),
+                        orderCreateReqBody.amount(),
+                        orderCreateReqBody.paymentMethod(),
+                        customerResponseBody,
+                        purchasedProducts
+                )
+        );
 
-        // * send order-confirmation email - need to send message to Kafka Message Broker --> async
+        return order.getId();
+
 
 
     }
-
 
 
 }
