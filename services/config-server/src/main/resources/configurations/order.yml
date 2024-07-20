@@ -21,6 +21,20 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
+
+  kafka:
+    producer:
+
+      bootstrap-servers: localhost:9092  # This is the address of the kafka server defined in the docker-compose.yml file
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer  # to serialize the keys of the messages that we send to Kafka
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # to serialize the values of the messages that we send to Kafka.
+
+      # In Kafka, both keys and values are sent as bytes. The purpose of key and value serializers is to convert keys and values from their native data type into bytes before they are sent to Kafka.
+      # Similarly, when Kafka sends these bytes of keys and values to the consumer, the consumer uses deserializers to convert these bytes back into their original data type 👇👇👇
+
+      properties:
+        spring.json.type.mapping: orderConfirmation:com.chamika.order.kafka.OrderConfirmation # We need to tell the consumer what type of object it is receiving - This is necessary because when the consumer receives the message, it needs to know what class to deserialize the JSON into. In this case, it will deserialize it into an instance of com.chamika.order.kafka.OrderConfirmation.
+
 server:
   port: 8070
 
