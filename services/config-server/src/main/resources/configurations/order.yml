@@ -26,6 +26,10 @@ server:
 
 application:
   config:
-    customer-url: http://localhost:8090/api/v1/customers  # TODO: change this later after adding the api-gateway :)
-    product-url: http://localhost:8050/api/v1/products  # TODO: change this later after adding the api-gateway :)
+
+    # ! Below we are not directly using the port numbers of each service, rather we are using our api-gateway server. This way is much better than using the port numbers of each service directly, because when a service scales up or down, the port number will change. But the api-gateway server will always be there to route the requests to the correct service + it has a load balancer built in. 😊😊😊
+
+    customer-url: http://localhost:8222/api/v1/customers
+    product-url: http://localhost:8222/api/v1/products
+    payment-url: http://localhost:8222/api/v1/payments
 

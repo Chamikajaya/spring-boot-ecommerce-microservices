@@ -28,6 +28,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<List<ProductPurchaseResponseBody>> purchaseProducts(
             @RequestBody List<ProductPurchaseRequestBody> productPurchaseRequestBody) {
+        System.out.println("Route hit");
         return ResponseEntity.ok(productService.purchaseProduct(productPurchaseRequestBody));
     }
 

@@ -23,21 +23,19 @@ import java.util.List;
 @NoArgsConstructor
 public class Order {
 
-    // TODO: write sql queries for this entity
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", allocationSize = 1)
     private Integer id;
 
-    private String reference;  // can not add a foreign key since we are using different databases (microservices architecture - database per service)
+    private String reference;  // TODO: ...
 
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    private String customerId;  // string coz Customer => MongoDB
+    private String customerId;  // string coz Customer => MongoDB || here we can not add a foreign key directly since we are using different databases (microservices architecture - database per service)
 
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderProductBridgeList;
