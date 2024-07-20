@@ -28,7 +28,7 @@ public class Order {
     @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", allocationSize = 1)
     private Integer id;
 
-    private String reference;  // TODO: ...
+    private String reference;  // This is a unique reference for the order to be sent to the customer :)
 
     private BigDecimal totalAmount;
 

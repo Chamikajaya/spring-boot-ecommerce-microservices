@@ -13,8 +13,7 @@
 **Once done with services - dockerize them and refactor to k8s instead of eureka**
 
 *
-*
-* Understand what spring profiles are
+* Add kafka related notes - covering main topics
 * Understand the importance of flyway
 * Check toProduct method in ProductMapper for building the category !
 * Understand those links to services in all applications.yml files
