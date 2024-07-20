@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+// * Feign Client is used to communicate between microservices
+
 @FeignClient(
         name = "product",
         url = "${application.config.product-url}"

@@ -13,13 +13,13 @@ public class OrderController {
 
     private final OrderService orderService;
 
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ResponseEntity<Integer> createOrder(
-//            @RequestBody @Valid OrderCreateReqBody orderCreateReqBody
-//    ) {
-//        return ResponseEntity.ok().body(orderService.createOrder(orderCreateReqBody));
-//    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Integer> createOrder(
+            @RequestBody @Valid OrderCreateReqBody orderCreateReqBody
+    ) {
+        return ResponseEntity.ok().body(orderService.createOrder(orderCreateReqBody));
+    }
 
 
 }
