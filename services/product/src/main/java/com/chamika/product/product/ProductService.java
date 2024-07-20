@@ -11,11 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,82 +23,6 @@ public class ProductService {
     public Integer createProduct(ProductCreateReqBody request) {
         Product product = productMapper.toProduct(request);
         return productRepository.save(product).getId();
-    }
-
-
-    @Transactional(rollbackFor = ProductPurchaseException.class)  // *  if any error occurs during the purchase process, all changes made to the database will be undone, maintaining data consistency. (ATOM)
-
-    public List<ProductPurchaseResponseBody> purchaseProduct(
-            List<ProductPurchaseRequestBody> productPurchaseRequestBody
-    ) {
-
-        // grab all product ids from request body
-        Set<Integer> allMentionedProdIds = productPurchaseRequestBody
-                .stream()
-                .map(ProductPurchaseRequestBody::productId)
-                .collect(Collectors.toSet());
-
-        // fetching the mentioned products from db
-        List<Product> allProductsToBePurchased = productRepository.findAllById(allMentionedProdIds);
-
-        // ids of all valid products
-        Set<Integer> idsOfAllValidProducts = allProductsToBePurchased
-                .stream()
-                .map(Product::getId)
-                .collect(Collectors.toSet());
-
-        // checking whether all the products requested for purchase exists in our db
-        if (idsOfAllValidProducts.size() != allMentionedProdIds.size()) {
-            // get the ids of all invalid products
-            allMentionedProdIds.removeAll(idsOfAllValidProducts);
-            throw new ProductPurchaseException(
-                    "Purchase could not be proceed ahead because the following product ids were not found [ " + allMentionedProdIds + " ]"
-            );
-        }
-
-        // creating a map (productId : product)
-        Map<Integer, Product> productDictionary = allProductsToBePurchased.stream()
-                .collect(Collectors.toMap(Product::getId, product -> product));
-
-
-        // response bodies to be returned
-        List<ProductPurchaseResponseBody> responseBodies = new ArrayList<>();
-
-        // processing each purchase for each product mentioned - by looping through the request of the user
-        for (ProductPurchaseRequestBody requestBody : productPurchaseRequestBody) {
-
-            Product product = productDictionary.get(requestBody.productId());
-
-            // checking whether there is enough stock
-            if (product.getQuantityInStock() < requestBody.quantity()) {
-                throw new ProductPurchaseException(
-                        "Not enough stock for product with id " + requestBody.productId()
-                );
-            }
-
-            // TODO: will do price calculation in other service
-
-            // stock update
-            product.setQuantityInStock(product.getQuantityInStock() - requestBody.quantity());
-
-            // building the productPurchaseResponse
-            responseBodies.add(
-                    new ProductPurchaseResponseBody(
-                            product.getId(),
-                            product.getName(),
-                            product.getDescription(),
-                            requestBody.quantity(),
-                            product.getUnitPrice()
-
-                    ));
-
-
-        }
-
-        // saving the products (because their quantity was updated)
-        productRepository.saveAll(allProductsToBePurchased);
-
-        return responseBodies;
     }
 
     public ProductResponseBody getProductById(Integer productId) {
@@ -140,4 +60,111 @@ public class ProductService {
         );
 
     }
+
+
+    /**
+     * This method handles the product purchase process.
+     * It checks whether the purchase can proceed, updates the stock of the products,
+     * and returns the ProductPurchaseResponseBody.
+     *
+     * @param productPurchaseRequestBody List of products to be purchased
+     * @return List of ProductPurchaseResponseBody
+     */
+    @Transactional(rollbackFor = ProductPurchaseException.class)
+    // * If any error occurs during the purchase process, all changes made to the database will be undone, maintaining data consistency. (ATOM)
+    public List<ProductPurchaseResponseBody> purchaseProduct(
+            List<ProductPurchaseRequestBody> productPurchaseRequestBody
+    ) {
+        // Fetch and validate all products mentioned in the request
+        Map<Integer, Product> productDictionary = fetchAndValidateProducts(productPurchaseRequestBody);
+
+        // Process each purchase request and return the response
+        return processPurchaseRequests(productPurchaseRequestBody, productDictionary);
+    }
+
+    /**
+     * Fetches all products mentioned in the purchase request from the database
+     * and validates their existence.
+     *
+     * @param productPurchaseRequestBody List of products to be purchased
+     * @return Map of product IDs to Product objects
+     * @throws ProductPurchaseException if any requested product is not found
+     */
+    private Map<Integer, Product> fetchAndValidateProducts(List<ProductPurchaseRequestBody> productPurchaseRequestBody) {
+        // Extract all product IDs from the request
+        Set<Integer> allMentionedProdIds = productPurchaseRequestBody.stream()
+                .map(ProductPurchaseRequestBody::productId)
+                .collect(Collectors.toSet());
+
+        // Fetch all mentioned products from the database
+        List<Product> allProductsToBePurchased = productRepository.findAllById(allMentionedProdIds);
+
+        // Get the IDs of all valid products found in the database
+        Set<Integer> idsOfAllValidProducts = allProductsToBePurchased.stream()
+                .map(Product::getId)
+                .collect(Collectors.toSet());
+
+        // Check if all requested products exist in the database
+        if (idsOfAllValidProducts.size() != allMentionedProdIds.size()) {
+            Set<Integer> invalidProductIds = new HashSet<>(allMentionedProdIds);
+            invalidProductIds.removeAll(idsOfAllValidProducts);
+            throw new ProductPurchaseException(
+                    "Purchase could not proceed because the following product ids were not found: " + invalidProductIds
+            );
+        }
+
+        // Create and return a map of product IDs to Product objects (map -> productId : product)
+        return allProductsToBePurchased.stream()
+                .collect(Collectors.toMap(Product::getId, product -> product));
+    }
+
+    /**
+     * Processes each purchase request, updates product stock,
+     * and creates response bodies.
+     *
+     * @param productPurchaseRequestBody List of products to be purchased
+     * @param productDictionary Map of product IDs to Product objects
+     * @return List of ProductPurchaseResponseBody
+     * @throws ProductPurchaseException if there's not enough stock for a product
+     */
+    private List<ProductPurchaseResponseBody> processPurchaseRequests(
+            List<ProductPurchaseRequestBody> productPurchaseRequestBody,
+            Map<Integer, Product> productDictionary
+    ) {
+        List<ProductPurchaseResponseBody> responseBodies = new ArrayList<>();
+
+        // List to store all updated products - to cater for stock updates which happen in the loop below :)
+        List<Product> updatedProducts = new ArrayList<>();
+
+        for (ProductPurchaseRequestBody requestBody : productPurchaseRequestBody) {
+            // Get the product from the dictionary which is related to the current requested product
+            Product product = productDictionary.get(requestBody.productId());
+
+            // Check if there's enough stock for the purchase
+            if (product.getQuantityInStock() < requestBody.quantity()) {
+                throw new ProductPurchaseException(
+                        "Not enough stock for product with id " + requestBody.productId()
+                );
+            }
+
+            // Update the stock
+            product.setQuantityInStock(product.getQuantityInStock() - requestBody.quantity());
+            updatedProducts.add(product);
+
+            // Create and add the response body
+            responseBodies.add(new ProductPurchaseResponseBody(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    requestBody.quantity(),  // Quantity purchased by the user - take it from the request body not from the product object
+                    product.getUnitPrice()
+            ));
+        }
+
+        // Save all updated products to the database - due to stock updates
+        productRepository.saveAll(updatedProducts);
+
+        return responseBodies;
+    }
+
 }

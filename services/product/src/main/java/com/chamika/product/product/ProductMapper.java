@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductMapper {
+
+    // converts ProductCreateReqBody DTO to Product domain object
     public Product toProduct(ProductCreateReqBody productCreateReqBody) {
         return Product.builder()
                 .name(productCreateReqBody.name())
@@ -20,6 +22,7 @@ public class ProductMapper {
                 .build();
     }
 
+    // converts Product domain object to ProductResponseBody DTO
     public ProductResponseBody toProductResponse(Product product) {
         return new ProductResponseBody(
                 product.getId(),
