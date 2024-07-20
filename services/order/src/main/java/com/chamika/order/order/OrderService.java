@@ -8,6 +8,8 @@ import com.chamika.order.kafka.OrderConfirmation;
 import com.chamika.order.kafka.OrderNotificationProducer;
 import com.chamika.order.orderline.OrderLineRequest;
 import com.chamika.order.orderline.OrderLineService;
+import com.chamika.order.payment.PaymentClient;
+import com.chamika.order.payment.PaymentRequestBody;
 import com.chamika.order.product.ProductClient;
 import com.chamika.order.product.ProductPurchaseRequestBody;
 import com.chamika.order.product.ProductPurchaseResponseBody;
@@ -23,6 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CustomerClient customerClient;  // using Feign Client
     private final ProductClient productClient;  // using Feign Client
+    private final PaymentClient paymentClient;  // using Feign Client
     private final OrderLineService orderLineService;
     private final OrderMapper orderMapper;
 
@@ -92,7 +95,18 @@ public class OrderService {
             );
         }
 
-        // TODO:  payment process - need to interact with the payment service 😊 ==> not implemented yet ...
+        // interacting with payment service
+        paymentClient.requestOrderPayment(
+                new PaymentRequestBody(
+                        null,
+                        orderCreateReqBody.amount(),
+                        orderCreateReqBody.paymentMethod(),
+                        order.getId(),
+                        order.getReference(),
+                        customerResponseBody
+                )
+        );
+
 
 
         // * send order-confirmation email - need to send message to Kafka Message Broker
