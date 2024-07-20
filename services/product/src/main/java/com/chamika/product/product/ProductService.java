@@ -90,6 +90,7 @@ public class ProductService {
      * @return Map of product IDs to Product objects
      * @throws ProductPurchaseException if any requested product is not found
      */
+
     private Map<Integer, Product> fetchAndValidateProducts(List<ProductPurchaseRequestBody> productPurchaseRequestBody) {
         // Extract all product IDs from the request
         Set<Integer> allMentionedProdIds = productPurchaseRequestBody.stream()
