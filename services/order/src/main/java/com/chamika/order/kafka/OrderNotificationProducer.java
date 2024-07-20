@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 
 // The OrderProducer class is responsible for sending order confirmations to the Kafka topic `order-topic`.
-public class OrderProducer {
+public class OrderNotificationProducer {
 
     // to produce messages to Kafka topics.
     private final KafkaTemplate<String, OrderConfirmation> kafkaTemplate;

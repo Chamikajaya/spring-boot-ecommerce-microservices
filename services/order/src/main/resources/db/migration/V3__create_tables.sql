@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS t_order
     total_amount    NUMERIC(10, 2)  NOT NULL CHECK (total_amount >= 0),
     payment_method  payment_method  NOT NULL,
     customer_id     VARCHAR(255)    NOT NULL,
-    created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at      TIMESTAMP       NOT NULL,
+    updated_at      TIMESTAMP
 );
 
 -- Create t_order_line table

@@ -5,7 +5,7 @@ import com.chamika.order.exception.ResourceNotFoundException;
 import com.chamika.order.customer.CustomerClient;
 import com.chamika.order.customer.CustomerResponseBody;
 import com.chamika.order.kafka.OrderConfirmation;
-import com.chamika.order.kafka.OrderProducer;
+import com.chamika.order.kafka.OrderNotificationProducer;
 import com.chamika.order.orderline.OrderLineRequest;
 import com.chamika.order.orderline.OrderLineService;
 import com.chamika.order.product.ProductClient;
@@ -26,7 +26,7 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderMapper orderMapper;
 
-    private final OrderProducer orderProducer;
+    private final OrderNotificationProducer orderProducer;
 
 
     public List<OrderResponse> findAllOrders() {

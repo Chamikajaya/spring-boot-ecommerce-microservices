@@ -3,10 +3,12 @@ package com.chamika.order.order;
 import com.chamika.order.product.ProductPurchaseRequestBody;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Validated
 public record OrderCreateReqBody(
         Integer id,
         String reference,
