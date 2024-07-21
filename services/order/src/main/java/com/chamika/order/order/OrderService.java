@@ -112,7 +112,7 @@ public class OrderService {
         // * send order-confirmation email - need to send message to Kafka Message Broker
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
-                        orderCreateReqBody.reference(),
+                        order.getReference(),
                         orderCreateReqBody.amount(),
                         orderCreateReqBody.paymentMethod(),
                         customerResponseBody,

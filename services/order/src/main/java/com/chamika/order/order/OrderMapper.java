@@ -7,7 +7,6 @@ public class OrderMapper {
 
     public Order mapToOrder(OrderCreateReqBody orderCreateReqBody) {
         return Order.builder()
-                .reference(orderCreateReqBody.reference())
                 .totalAmount(orderCreateReqBody.amount())
                 .paymentMethod(orderCreateReqBody.paymentMethod())
                 .customerId(orderCreateReqBody.customerId())
