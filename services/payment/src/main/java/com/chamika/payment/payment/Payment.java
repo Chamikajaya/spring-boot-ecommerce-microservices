@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "t_payment")
@@ -44,6 +45,13 @@ public class Payment {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void generateReference() {
+        if (this.reference == null || this.reference.isEmpty()) {
+            this.reference = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10).toUpperCase();
+        }
+    }
 
 
 

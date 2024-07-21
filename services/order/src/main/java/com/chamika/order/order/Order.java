@@ -33,6 +33,7 @@ public class Order {
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "payment_method")
     private PaymentMethod paymentMethod;
 
     private String customerId;  // string coz Customer => MongoDB || here we can not add a foreign key directly since we are using different databases (microservices architecture - database per service)

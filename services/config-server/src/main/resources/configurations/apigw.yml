@@ -7,32 +7,34 @@ spring:
 
       routes:
 
+        # * The customer route will forward requests coming from the client which matches, /api/v1/customers/** to the customer service. Also we are using built-in load balancing ==>
         - id: customer
-          uri: lb://http://customer
+          uri: lb://CUSTOMER
           predicates:
             - Path=/api/v1/customers/**
 
         - id: product
-          uri: lb://http://product
+          uri: lb://PRODUCT
           predicates:
             - Path=/api/v1/products/**
 
         - id: order
-          uri: lb://http://order
+          uri: lb://ORDER
           predicates:
             - Path=/api/v1/orders/**
 
         - id: order-lines
-          uri: lb://http://order
+          uri: lb://ORDER
           predicates:
             - Path=/api/v1/order-lines/**
 
         - id: payment
-          uri: lb://http://payment
+          uri: lb://PAYMENT
           predicates:
             - Path=/api/v1/payments/**
 
 
-
+server:
+  port: 8222
 
 

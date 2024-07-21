@@ -5,7 +5,7 @@ spring:
       password: password
       host: localhost
       port: 27017
-      database: customer
+      database: notification
       authentication-database: admin
 
   kafka:
@@ -22,7 +22,7 @@ spring:
       properties:
         spring.json.trusted.packages: com.chamika.notification.kafka.payment, com.chamika.notification.kafka.order
 
-        spring.json.type.mapping: paymentConfirmation:com.chamika.notification.kafka.payment.PaymentConfirmation, orderConfirmation:com.chamika.notification.kafka.order.OrderConfirmation
+        spring.json.type.mapping: paymentNotification:com.chamika.notification.kafka.payment.PaymentConfirmation, orderConfirmation:com.chamika.notification.kafka.order.OrderConfirmation
 
   mail:
     host: localhost  # TODO: change this to the actual mail server

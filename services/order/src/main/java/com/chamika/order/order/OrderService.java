@@ -15,6 +15,7 @@ import com.chamika.order.product.ProductPurchaseRequestBody;
 import com.chamika.order.product.ProductPurchaseResponseBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,8 +47,7 @@ public class OrderService {
     }
 
 
-    // TODO - add transactional
-    // TODO: Break this function into smaller functions for better readability !!!
+    @Transactional
     public Integer createOrder(OrderCreateReqBody orderCreateReqBody) {
 
         // 1) check whether the customer exists - need to interact with the customer service 😊

@@ -30,7 +30,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
       properties:
-        spring.json.type.mapping: paymentNotification:package com.chamika.payment.kafka.PaymentNotification
+        spring.json.type.mapping: paymentNotification:com.chamika.payment.kafka.PaymentNotification
 
 
 server:
