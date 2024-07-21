@@ -3,4 +3,3 @@ spring:
     name: apigw
   config:
     import: optional:configserver:http://localhost:8888
-

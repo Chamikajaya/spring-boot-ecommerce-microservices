@@ -9,3 +9,11 @@ spring:
   cloud:
     config:
       override-system-properties: false
+
+# For ZipKin
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+

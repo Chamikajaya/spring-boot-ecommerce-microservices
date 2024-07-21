@@ -83,9 +83,13 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
 
-
-
-
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin_microservices_project
+    ports:
+      - "9411:9411"
+    networks:
+      - microservices_project_network
 
 
 networks:
