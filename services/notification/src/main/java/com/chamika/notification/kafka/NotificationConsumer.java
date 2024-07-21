@@ -1,10 +1,12 @@
 package com.chamika.notification.kafka;
 
+import com.chamika.notification.emails.EmailService;
 import com.chamika.notification.kafka.order.OrderConfirmation;
 import com.chamika.notification.kafka.payment.PaymentConfirmation;
 import com.chamika.notification.notification.Notification;
 import com.chamika.notification.notification.NotificationRepository;
 import com.chamika.notification.notification.NotificationType;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,10 +20,10 @@ import java.time.LocalDateTime;
 public class NotificationConsumer {
 
     private final NotificationRepository notificationRepository;
-//    private final EmailService emailService
+    private final EmailService emailService;
 
     @KafkaListener(topics = "payment-topic")
-    public void consumePaymentNotification(PaymentConfirmation paymentConfirmation) {
+    public void consumePaymentNotification(PaymentConfirmation paymentConfirmation) throws MessagingException {
 
         log.info("Consuming the message in `payment-topic` {} ", paymentConfirmation);
 
@@ -34,12 +36,18 @@ public class NotificationConsumer {
                         .build()
         );
 
-        // TODO: send the email
+        // send the email
+        emailService.sendPaymentNotification(
+                paymentConfirmation.customerEmail(),
+                paymentConfirmation.customerFirstname() + " " + paymentConfirmation.customerLastname(),
+                paymentConfirmation.amount(),
+                paymentConfirmation.orderReference()
+        );
 
     }
 
     @KafkaListener(topics = "payment-topic")
-    public void consumeOrderNotification(OrderConfirmation orderConfirmation) {
+    public void consumeOrderNotification(OrderConfirmation orderConfirmation) throws MessagingException {
 
         log.info("Consuming the message in `payment-topic` {} ", orderConfirmation);
 
@@ -52,13 +60,16 @@ public class NotificationConsumer {
                         .build()
         );
 
-        // TODO: send the email
+        // send the email
+        emailService.sendOrderNotification(
+                orderConfirmation.customer().email(),
+                orderConfirmation.customer().firstName() + " " + orderConfirmation.customer().lastName(),
+                orderConfirmation.totalAmount(),
+                orderConfirmation.orderReference(),
+                orderConfirmation.products()
+        );
 
     }
-
-
-
-
 
 
 }

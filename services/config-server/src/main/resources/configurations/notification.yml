@@ -1,0 +1,47 @@
+spring:
+  data:
+    mongodb:
+      username: chamika
+      password: password
+      host: localhost
+      port: 27017
+      database: customer
+      authentication-database: admin
+
+  kafka:
+    consumer:
+
+      bootstrap-servers: localhost:9092
+      group-id: payment-group, order-group
+      auto-offset-reset: earliest
+
+      # since notification service is a consumer --> deserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+      properties:
+        spring.json.trusted.packages: com.chamika.notification.kafka.payment, com.chamika.notification.kafka.order
+
+        spring.json.type.mapping: paymentConfirmation:com.chamika.notification.kafka.payment.PaymentConfirmation, orderConfirmation:com.chamika.notification.kafka.order.OrderConfirmation
+
+  mail:
+    host: localhost  # TODO: change this to the actual mail server
+    port: 1025
+    username: chamika  # TODO: change this to the actual mail server username
+    password: password  # TODO: change this to the actual mail server password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+        starttls:
+          enable: true
+        connectiontimeout: 5000  # TODO: remove in production ?
+        timeout: 3000
+        writetimeout: 5000
+      protocol: smtp
+
+server:
+  port: 8040

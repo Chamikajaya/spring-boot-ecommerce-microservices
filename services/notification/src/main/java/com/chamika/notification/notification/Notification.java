@@ -27,9 +27,4 @@ public class Notification {
     private PaymentConfirmation paymentConfirmation;
 
 
-
-
-
-
-
 }
