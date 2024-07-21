@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: apigw
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # enables the Gateway's service discovery feature. When enabled, the Gateway automatically creates routes for services registered with the discovery service (like Eureka)
+
+      routes:
+
+        - id: customer
+          uri: lb://http://customer
+          predicates:
+            - Path=/api/v1/customers/**
+
+        - id: product
+          uri: lb://http://product
+          predicates:
+            - Path=/api/v1/products/**
+
+        - id: order
+          uri: lb://http://order
+          predicates:
+            - Path=/api/v1/orders/**
+
+        - id: order-lines
+          uri: lb://http://order
+          predicates:
+            - Path=/api/v1/order-lines/**
+
+        - id: payment
+          uri: lb://http://payment
+          predicates:
+            - Path=/api/v1/payments/**
+
+
+
+
+

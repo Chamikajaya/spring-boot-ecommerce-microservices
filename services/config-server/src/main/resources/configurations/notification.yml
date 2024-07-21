@@ -16,8 +16,8 @@ spring:
       auto-offset-reset: earliest
 
       # since notification service is a consumer --> deserializer
-      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
       properties:
         spring.json.trusted.packages: com.chamika.notification.kafka.payment, com.chamika.notification.kafka.order
