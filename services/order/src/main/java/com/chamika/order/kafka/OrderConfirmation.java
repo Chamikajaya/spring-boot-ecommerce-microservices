@@ -11,7 +11,7 @@ public record OrderConfirmation(
         String orderReference,
         BigDecimal totalAmount,
         PaymentMethod paymentMethod,
-        CustomerResponseBody customerResponseBody, // customer details
-        List<ProductPurchaseResponseBody> productsPurchased // products purchased
+        CustomerResponseBody customer, // customer details
+        List<ProductPurchaseResponseBody> products // products purchased
 ) {
 }

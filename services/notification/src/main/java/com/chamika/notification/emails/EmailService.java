@@ -70,7 +70,7 @@ public class EmailService {
     public void sendOrderNotification(
             String to,
             String customerFullName,
-            BigDecimal amount,
+            BigDecimal totalAmount,
             String orderReference,
             List<Product> products
     ) throws MessagingException {
@@ -83,7 +83,7 @@ public class EmailService {
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerFullName);
-        variables.put("amount", amount);
+        variables.put("totalAmount", totalAmount);
         variables.put("orderReference", orderReference);
         variables.put("products", products);
 

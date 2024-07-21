@@ -46,7 +46,7 @@ public class NotificationConsumer {
 
     }
 
-    @KafkaListener(topics = "payment-topic")
+    @KafkaListener(topics = "order-topic")
     public void consumeOrderNotification(OrderConfirmation orderConfirmation) throws MessagingException {
 
         log.info("Consuming the message in `payment-topic` {} ", orderConfirmation);
@@ -68,6 +68,8 @@ public class NotificationConsumer {
                 orderConfirmation.orderReference(),
                 orderConfirmation.products()
         );
+
+        log.info("Email sent for order confirmation 😊😊😊 for order reference: {}", orderConfirmation.orderReference());
 
     }
 

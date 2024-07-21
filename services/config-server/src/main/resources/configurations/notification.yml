@@ -29,19 +29,18 @@ spring:
     port: 1025
     username: chamika  # TODO: change this to the actual mail server username
     password: password  # TODO: change this to the actual mail server password
+
+    # TODO: have to change the below properties later....
     properties:
       mail:
         smtp:
-          auth: true
-          ssl:
-            enable: true
-            trust: "*"
+          trust: "*"
+        auth: true
         starttls:
-          enable: true
-        connectiontimeout: 5000  # TODO: remove in production ?
+          enabled: true
+        connectiontimeout: 5000
         timeout: 3000
         writetimeout: 5000
-      protocol: smtp
 
 server:
   port: 8040
