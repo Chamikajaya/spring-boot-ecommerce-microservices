@@ -1,8 +1,7 @@
 **Refer amigoscode & dockerrize the services & eureka server - then Kubernetes EKS**
 
 **Calculate total price of the order**
-* Generate custom ref  for order ref too
-* Generate custom refs using simple random algo
+
 
 **We could place the required files among multiple services in a common-shared folder. But I am assuming a real life scenario where different microservices is implemented using different tech stack. So some code duplication !**
 

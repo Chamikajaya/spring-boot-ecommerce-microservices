@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -81,8 +82,12 @@ public class OrderService {
             throw new OrderProcessingException("Failed to purchase products: (order --> product)" + e.getMessage());
         }
 
+
+        // * Calculate the total amount
+        BigDecimal totalAmount = calculateTotalAmount(purchasedProducts);
+
         // 3) create the order & save
-        Order order = orderRepository.save(orderMapper.mapToOrder(orderCreateReqBody));
+        Order order = orderRepository.save(orderMapper.mapToOrder(orderCreateReqBody, totalAmount));
 
         // 4) create order-line & save
         for (ProductPurchaseRequestBody productPurchaseRequestBody : productPurchaseRequests) {
@@ -99,7 +104,7 @@ public class OrderService {
         paymentClient.requestOrderPayment(
                 new PaymentRequestBody(
                         null,
-                        orderCreateReqBody.amount(),
+                        totalAmount,
                         orderCreateReqBody.paymentMethod(),
                         order.getId(),
                         order.getReference(),
@@ -107,13 +112,11 @@ public class OrderService {
                 )
         );
 
-
-
         // * send order-confirmation email - need to send message to Kafka Message Broker
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         order.getReference(),
-                        orderCreateReqBody.amount(),
+                        totalAmount,
                         orderCreateReqBody.paymentMethod(),
                         customerResponseBody,
                         purchasedProducts
@@ -121,9 +124,13 @@ public class OrderService {
         );
 
         return order.getId();
+    }
 
-
-
+    // Helper method to calculate the total amount
+    private BigDecimal calculateTotalAmount(List<ProductPurchaseResponseBody> purchasedProducts) {
+        return purchasedProducts.stream()
+                .map(product -> product.price().multiply(BigDecimal.valueOf(product.quantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 

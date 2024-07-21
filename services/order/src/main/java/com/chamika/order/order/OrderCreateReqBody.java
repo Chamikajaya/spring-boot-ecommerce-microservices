@@ -11,7 +11,7 @@ import java.util.List;
 @Validated
 public record OrderCreateReqBody(
         Integer id,
-        @Positive(message = "Amount should be positive")
+//        @Positive(message = "Amount should be positive")
         BigDecimal amount,
         @NotNull(message = "Payment method is required")
         PaymentMethod paymentMethod,
