@@ -9,7 +9,7 @@ spring:
 
         # * The customer route will forward requests coming from the client which matches, /api/v1/customers/** to the customer service. Also we are using built-in load balancing ==>
         - id: customer
-          uri: lb://CUSTOMER
+          uri: lb://CUSTOMER  # * TRY lb:http://CUSTOMER ???
           predicates:
             - Path=/api/v1/customers/**
 
