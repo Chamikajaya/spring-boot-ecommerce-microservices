@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   mail-dev:
-    container_name: maildev_microservices_project
+    container_name: mail_microservices_project
     image: maildev/maildev
     ports:
       - "1080:1080"

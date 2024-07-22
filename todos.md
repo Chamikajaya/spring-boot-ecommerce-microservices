@@ -1,16 +1,3 @@
-**Refer amigoscode & dockerrize the services & eureka server - then Kubernetes EKS**
-
-
-### TODOs -->
-
-* Understand the importance of Flyway
-
-**Once done with services - dockerize them and refactor to k8s instead of eureka**
-
-*
-* Add kafka related notes - covering main topics
-
-
 **CV - Project description**
 
 -- followed ATOM principles
