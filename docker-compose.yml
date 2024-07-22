@@ -1,19 +1,19 @@
 services:
 
-#  postgres:
-#    container_name: psql_container_microservices_project
-#    image: postgres
-#    environment:
-#      POSTGRES_USER: chamika
-#      POSTGRES_PASSWORD: password
-#      PGDATA: /data/postgres
-#    volumes:
-#      - postgres_microservices_project:/data/postgres
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - microservices_project_network
-#    restart: unless-stopped
+  postgres:
+    container_name: psql_container_microservices_project
+    image: postgres
+    environment:
+      POSTGRES_USER: chamika
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_microservices_project:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
 
 
   mongo:
@@ -46,45 +46,45 @@ services:
       - microservices_project_network
     restart: unless-stopped
 
-#  maildev:
-#    container_name: maildev_microservices_project
-#    image: maildev/maildev
-#    ports:
-#      - "1080:1080"
-#      - "1025:1025"
-#    restart: unless-stopped
-#    networks:
-#      - microservices_project_network
-#
-#
-#  zookeeper:
-#    image: confluentinc/cp-zookeeper:latest
-#    container_name: zookeeper_microservices_project
-#    environment:
-#      ZOOKEEPER_SERVER_ID: 1
-#      ZOOKEEPER_CLIENT_PORT: 2181
-#      ZOOKEEPER_TICK_TIME: 2000
-#    ports:
-#      - "22181:22181"
-#    networks:
-#      - microservices_project_network
-#
-#  kafka:
-#    image: confluentinc/cp-kafka:latest
-#    container_name: ms_kafka
-#    ports:
-#      - "9092:9092"
-#    depends_on:
-#      - zookeeper
-#    networks:
-#      - microservices_project_network
-#    environment:
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+  maildev:
+    container_name: maildev_microservices_project
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    restart: unless-stopped
+    networks:
+      - microservices_project_network
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper_microservices_project
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:22181"
+    networks:
+      - microservices_project_network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: ms_kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - microservices_project_network
+    environment:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
   zipkin:
     image: openzipkin/zipkin
@@ -95,7 +95,7 @@ services:
       - microservices_project_network
 
   config-server:
-    image: chamikajay/ms-config-server:0.0.4-SNAPSHOT
+    image: chamikajay/ms-config-server:0.0.6-SNAPSHOT
     container_name: config_server_microservices_project
     ports:
       - "8888:8888"
@@ -141,77 +141,77 @@ services:
       - microservices_project_network
     restart: unless-stopped
 
-#  notification:
-#    image: chamikajay/ms-notification:latest
-#    container_name: notification_microservices_project
-#    ports:
-#      - "8040:8040"
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#      mongo:
-#        condition: service_started
-#      kafka:
-#        condition: service_started
-#      maildev:
-#        condition: service_started
-#    networks:
-#      - microservices_project_network
-#    restart: unless-stopped
-#
-#  order:
-#    image: chamikajay/ms-order:latest
-#    container_name: order_microservices_project
-#    ports:
-#      - "8070:8070"
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#      postgres:
-#        condition: service_started
-#      kafka:
-#        condition: service_started
-#    networks:
-#      - microservices_project_network
-#    restart: unless-stopped
-#
-#  payment:
-#    image: chamikajay/ms-payment:latest
-#    container_name: payment_microservices_project
-#    ports:
-#      - "8060:8060"
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#      postgres:
-#        condition: service_started
-#      kafka:
-#        condition: service_started
-#    networks:
-#      - microservices_project_network
-#    restart: unless-stopped
-#
-#  product:
-#    image: chamikajay/ms-product:latest
-#    container_name: product_microservices_project
-#    ports:
-#      - "8050:8050"
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#      postgres:
-#        condition: service_started
-#    networks:
-#      - microservices_project_network
-#    restart: unless-stopped
+  notification:
+    image: chamikajay/ms-notification:latest
+    container_name: notification_microservices_project
+    ports:
+      - "8040:8040"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      mongo:
+        condition: service_started
+      kafka:
+        condition: service_started
+      maildev:
+        condition: service_started
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+  order:
+    image: chamikajay/ms-order:latest
+    container_name: order_microservices_project
+    ports:
+      - "8070:8070"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+      kafka:
+        condition: service_started
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+  payment:
+    image: chamikajay/ms-payment:latest
+    container_name: payment_microservices_project
+    ports:
+      - "8060:8060"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+      kafka:
+        condition: service_started
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
+
+  product:
+    image: chamikajay/ms-product:latest
+    container_name: product_microservices_project
+    ports:
+      - "8050:8050"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    networks:
+      - microservices_project_network
+    restart: unless-stopped
 
   apigw:
     image: chamikajay/ms-api-gateway:0.0.2-SNAPSHOT
@@ -225,14 +225,14 @@ services:
         condition: service_healthy
       customer:
         condition: service_started
-#      notification:
-#        condition: service_started
-#      order:
-#        condition: service_started
-#      payment:
-#        condition: service_started
-#      product:
-#        condition: service_started
+      notification:
+        condition: service_started
+      order:
+        condition: service_started
+      payment:
+        condition: service_started
+      product:
+        condition: service_started
     networks:
       - microservices_project_network
     restart: unless-stopped

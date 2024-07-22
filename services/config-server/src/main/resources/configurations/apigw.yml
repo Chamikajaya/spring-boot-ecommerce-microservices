@@ -9,27 +9,27 @@ spring:
 
         # * The customer route will forward requests coming from the client which matches, /api/v1/customers/** to the customer service. Also we are using built-in load balancing ==>
         - id: customer
-          uri: lb://CUSTOMER  # * TRY lb:http://CUSTOMER ???
+          uri: lb:http://CUSTOMER  # * TRY lb:http://CUSTOMER ???
           predicates:
             - Path=/api/v1/customers/**
 
         - id: product
-          uri: lb://PRODUCT
+          uri: lb:http://PRODUCT
           predicates:
             - Path=/api/v1/products/**
 
         - id: order
-          uri: lb://ORDER
+          uri: lb:http://ORDER
           predicates:
             - Path=/api/v1/orders/**
 
         - id: order-lines
-          uri: lb://ORDER
+          uri: lb:http://ORDER
           predicates:
             - Path=/api/v1/order-lines/**
 
         - id: payment
-          uri: lb://PAYMENT
+          uri: lb:http://PAYMENT
           predicates:
             - Path=/api/v1/payments/**
 

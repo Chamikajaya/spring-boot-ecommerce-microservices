@@ -1,9 +1,10 @@
 eureka:
   instance:
+    preferIpAddress: true  # * THE LINE WHICH FIXED A DAYLONG ERROR I HAD 🥹🥹🥹
     hostname: eureka-server
   client:
     serviceUrl:
-      defaultZone: http://eureka-server:8761/eureka/   # ? http://eureka_server_microservices_project:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
 name:
   value: chamika
 
