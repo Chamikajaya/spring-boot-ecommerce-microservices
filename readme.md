@@ -4,6 +4,10 @@
 
 * This project is a simple e-commerce application I built using Spring Boot and Spring Cloud, following the **microservices architecture**. It includes multiple services that handle various functionalities such as customer management, product management, order processing, payment handling, and notifications.
 
+### Global Architecture
+
+![global-architecture-of-the-project-draw-io.png.png](helper-diagrams%2Fglobal-architecture-of-the-project-draw-io.png.png)
+
 
 ### Tech stack I used
 
@@ -48,8 +52,6 @@
 
 
 #### Workflow of the application
-
-![global-architecture-of-the-project-draw-io.png.png](helper-diagrams%2Fglobal-architecture-of-the-project-draw-io.png.png)
 
 1) **Order Placement:**
    * The Order Service validates the customer through the Customer Service.
