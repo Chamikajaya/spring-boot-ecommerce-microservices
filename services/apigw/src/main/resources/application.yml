@@ -2,4 +2,4 @@ spring:
   application:
     name: apigw
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-server:8888  # * allows API Gateway to connect to the Config Server container using the service name defined in the docker-compose file.

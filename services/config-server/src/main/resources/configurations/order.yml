@@ -1,7 +1,7 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://postgres:5432/order
     username: chamika
     password: password
     driver-class-name: org.postgresql.Driver
@@ -25,7 +25,7 @@ spring:
   kafka:
     producer:
 
-      bootstrap-servers: localhost:9092  # This is the address of the kafka server defined in the docker-compose.yml file
+      bootstrap-servers: kafka:9092  # This is the address of the kafka server defined in the docker-compose.yml file
       key-serializer: org.apache.kafka.common.serialization.StringSerializer  # to serialize the keys of the messages that we send to Kafka
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # to serialize the values of the messages that we send to Kafka.
 
@@ -43,7 +43,7 @@ application:
 
     # ! Below we are not directly using the port numbers of each service, rather we are using our api-gateway server. This way is much better than using the port numbers of each service directly, because when a service scales up or down, the port number will change. But the api-gateway server will always be there to route the requests to the correct service + it has a load balancer built in. 😊😊😊
 
-    customer-url: http://localhost:8222/api/v1/customers
-    product-url: http://localhost:8222/api/v1/products
-    payment-url: http://localhost:8222/api/v1/payments
+    customer-url: http://apigw:8222/api/v1/customers
+    product-url: http://apigw:8222/api/v1/products
+    payment-url: http://apigw:8222/api/v1/payments
 

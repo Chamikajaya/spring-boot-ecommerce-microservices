@@ -3,7 +3,7 @@ spring:
     mongodb:
       username: chamika
       password: password
-      host: localhost
+      host: mongo
       port: 27017
       database: customer
       authentication-database: admin

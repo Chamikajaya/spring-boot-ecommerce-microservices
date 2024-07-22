@@ -3,7 +3,7 @@ spring:
     mongodb:
       username: chamika
       password: password
-      host: localhost
+      host: mongo  # TODO: changed from localhost to mongo
       port: 27017
       database: notification
       authentication-database: admin
@@ -11,7 +11,7 @@ spring:
   kafka:
     consumer:
 
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092  # TODO: changed from localhost to kafka
       group-id: payment-group, order-group
       auto-offset-reset: earliest
 
@@ -25,22 +25,22 @@ spring:
         spring.json.type.mapping: paymentNotification:com.chamika.notification.kafka.payment.PaymentConfirmation, orderConfirmation:com.chamika.notification.kafka.order.OrderConfirmation
 
   mail:
-    host: localhost  # TODO: change this to the actual mail server
-    port: 1025
-    username: chamika  # TODO: change this to the actual mail server username
-    password: password  # TODO: change this to the actual mail server password
+    host: smtp.gmail.com  # TODO: change this to the actual mail server
+    port: 465
+    username: chamika.21@cse.mrt.ac.lk  # TODO: change this to the actual mail server username
+    password: toqquqzbnvbmafdm  # TODO: change this to the actual mail server password
 
     # TODO: have to change the below properties later....
     properties:
       mail:
         smtp:
-          trust: "*"
-        auth: true
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
         starttls:
-          enabled: true
-        connectiontimeout: 5000
-        timeout: 3000
-        writetimeout: 5000
+          enable: true
+      protocol: smtp
 
 server:
   port: 8040

@@ -1,9 +1,9 @@
 eureka:
   instance:
-    hostname: localhost
+    hostname: eureka-server  # TODO: check this
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
 
 spring:
   cloud:
