@@ -49,7 +49,7 @@
 
 #### Workflow of the application
 
-![global-architecture-of-the-project-draw-io.png.png](helper-diagrams%2Fglobal-architecture-of-the-project-draw-io.png.png)
+![global-architecture-draw-io.png.png](helper-diagrams%2Fglobal-architecture-draw-io.png.png)
 
 1) **Order Placement:**
    * The Order Service validates the customer through the Customer Service.
