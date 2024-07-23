@@ -1,9 +1,3 @@
-**CV - Project description**
+**TODOs** 
 
--- followed ATOM principles
--- Good sql practices - create indexes etc... add more such + Flyway for db migrations
--- Kafka - for async communication
--- Eureka - for service discovery (Later after learning about k8s - refactored)
--- Design Patterns used -> n tier architecture, producer-consumer , DTO pattern (double check)
--- Kafka - for async communication
--- Zipkin - for distributed tracing - can use Zipkin to help you track requests as they traverse through these services. This can be useful for understanding the latency of these requests and the nature of the requests' paths.
+1) Replace Eureka with Kubernetes
