@@ -4,6 +4,10 @@
 
 * This project is a simple e-commerce application I built using Spring Boot and Spring Cloud, following the **microservices architecture**. It includes multiple services that handle various functionalities such as customer management, product management, order processing, payment handling, and notifications.
 
+### Global Architecture
+
+![global-architecture-of-the-project-draw-io.png.png](helper-diagrams%2Fglobal-architecture-of-the-project-draw-io.png.png)
+
 
 ### Tech stack I used
 
@@ -26,11 +30,11 @@
 
 **Further, the following design patterns were used for better maintainability**
 
-  * **n-tier architecture** -  Separating the application into layers such as presentation, business logic, and data access to enhance modularity and scalability.
+* **n-tier architecture** -  Separating the application into layers such as presentation, business logic, and data access to enhance modularity and scalability.
 
-  * **producer-consumer pattern** - Using Kafka for asynchronous communication between microservices, where services act as producers and consumers of messages
+* **producer-consumer pattern** - Using Kafka for asynchronous communication between microservices, where services act as producers and consumers of messages
 
-  * **DTO pattern** -  Implementing Data Transfer Objects (DTOs) to transfer data between different layers and services, ensuring loose coupling
+* **DTO pattern** -  Implementing Data Transfer Objects (DTOs) to transfer data between different layers and services, ensuring loose coupling
 
 
 ### Main Architecture of the project
@@ -49,8 +53,6 @@
 
 #### Workflow of the application
 
-![global-architecture-draw-io.png.png](helper-diagrams%2Fglobal-architecture-draw-io.png.png)
-
 1) **Order Placement:**
    * The Order Service validates the customer through the Customer Service.
    * It verifies product availability with the Product Service.
@@ -64,7 +66,7 @@
    * The Notification Service consumes messages from Kafka and saves notification details to MongoDB.
 
 #### Security
-  * Clients interact with microservices through the API Gateway, which validates requests and forwards them to the appropriate services.
+* Clients interact with microservices through the API Gateway, which validates requests and forwards them to the appropriate services.
 
 ### ER Diagram
 
@@ -73,11 +75,11 @@
 ### Asynchronous Communication with Kafka
 
 **Producers:**
-  * Order Service sends messages to the "order-topic".
-  * Payment Service sends messages to the "payment-topic".
+* Order Service sends messages to the "order-topic".
+* Payment Service sends messages to the "payment-topic".
 
 **Consumer:**
-  * Notification Service consumes messages from both "order-topic" and "payment-topic" and saves the details to MongoDB.
+* Notification Service consumes messages from both "order-topic" and "payment-topic" and saves the details to MongoDB.
 
 ![kafka-async-communication-draw-io.png.png](helper-diagrams%2Fkafka-async-communication-draw-io.png.png)
 
@@ -89,7 +91,7 @@
 
 ### Collaboration
 
-* If you want to collaborate with me on this project, especially on creating a frontend for this project, please feel free to contact me. I am looking forward to working with you. 
+* If you want to collaborate with me on this project, especially on creating a frontend for this project, please feel free to contact me. I am looking forward to working with you.
 
 ### Additional Screenshots
 
@@ -97,7 +99,7 @@
 
 ![eureka-dashboard.png](helper-diagrams%2Feureka-dashboard.png)
 
-#### Customer POST request to API Gateway example 
+#### Customer POST request to API Gateway example
 
 ![customer-POST.png](helper-diagrams%2Fcustomer-POST.png)
 
